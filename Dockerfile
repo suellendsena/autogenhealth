@@ -1,34 +1,17 @@
-# Base image
-FROM python:3.11-slim
+# Usa uma imagem base com Python 3.8
+FROM python:3.8-slim
 
-# Set environment variables
-ENV PYTHONUNBUFFERED=1
-
-# Set working directory
+# Define o diretório de trabalho
 WORKDIR /app
 
-# Install system dependencies
-RUN apt-get update && \
-    apt-get install -y --no-install-recommends \
-    build-essential \
-    wget \
-    git \
-    && rm -rf /var/lib/apt/lists/*
-
-# Clone Microsoft AutoGen repository
-RUN git clone https://github.com/microsoft/autogen.git /app/autogen
-
-# Install Python dependencies
-COPY requirements.txt /app/requirements.txt
-RUN pip install --upgrade pip && \
-    pip install -r requirements.txt && \
-    pip install /app/autogen
-
-# Copy the project files
+# Copia os arquivos necessários para o contêiner
 COPY . /app
 
-# Expose Jupyter port
-EXPOSE 8888
+# Instala as dependências
+RUN pip install --no-cache-dir -r requirements.txt
 
-# Command to start Jupyter Lab
-CMD ["jupyter", "lab", "--ip=0.0.0.0", "--port=8888", "--no-browser", "--allow-root"]
+# Exponha a porta 8000 para acesso externo, se necessário
+EXPOSE 8000
+
+# Comando para executar o script principal
+CMD ["python", "main.py"]

@@ -1,9 +1,3 @@
-pandas
-numpy
-jupyterlab
-transformers
-langchain
-openai
-sentence-transformers
-torch
-faiss-cpu
+nest-asyncio
+autogen-agentchat
+autogen-ext[openai,azure]
